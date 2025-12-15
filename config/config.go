@@ -1,22 +1,26 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/ilyakaznacheev/cleanenv"
 )
 
 type Config struct {
-	Serverv  ServerConfig
+	Server   ServerConfig
 	Postgres PostgresConfig
 	Redis    RedisConfig
 	Logging  LoggingConfig
 }
 
 type ServerConfig struct {
-	Host string `yaml:"Host"`
-	Port int    `yaml:"Port"`
+	Host         string        `yaml:"Host"`
+	Port         int           `yaml:"Port"`
+	ReadTimeout  time.Duration `yaml:"ReadTimeout"`
+	WriteTimeout time.Duration `yaml:"WriteTimeout"`
 }
 
 type PostgresConfig struct {
@@ -38,7 +42,7 @@ type LoggingConfig struct {
 	Level string `yaml:"Level"`
 }
 
-func MustLoad() *Config {
+func NewConfig() (*Config, error) {
 	var cfg Config
 
 	env := "dev"
@@ -50,7 +54,7 @@ func MustLoad() *Config {
 
 	err := cleanenv.ReadConfig(configPath, cfg)
 	if err != nil {
-		panic(fmt.Sprintf("cannot read config file: %w", err))
+		return nil, errors.New("config file not found")
 	}
-	return &cfg
+	return &cfg, nil
 }
