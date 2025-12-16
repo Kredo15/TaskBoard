@@ -13,6 +13,11 @@ postgres:
   User: "postgres"
   Password: "postgres"
   DBname: "taskboard"
+  DB_MAX_CONNS: 20
+  DB_MIN_CONNS: 5
+  DB_MAX_CONN_LIFETIME: 30m
+  DB_MAX_CONN_IDLE_TIME: 5m
+  DB_HEALTH_CHECK_PERIOD: 1m
 
 redis:
   Host: "localhost"

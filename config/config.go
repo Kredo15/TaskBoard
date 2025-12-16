@@ -29,6 +29,19 @@ type PostgresConfig struct {
 	User     string `yaml:"User"`
 	Password string `yaml:"Password"`
 	DBname   string `yaml:"DBname"`
+
+	MaxConns          int           `yaml:"DB_MAX_CONNS"`
+	MinConns          int           `yaml:"DB_MIN_CONNS"`
+	MaxConnLifetime   time.Duration `yaml:"DB_MAX_CONN_LIFETIME"`
+	MaxConnIdleTime   time.Duration `yaml:"DB_MAX_CONN_IDLE_TIME"`
+	HealthCheckPeriod time.Duration `yaml:"DB_HEALTH_CHECK_PERIOD"`
+}
+
+func (p *PostgresConfig) GetDSN() string {
+	return fmt.Sprintf(
+		"postgres://%s:%s@%s:%d/%s?sslmode=%s",
+		p.User, p.Password, p.Host, p.Port, p.DBname, "disable",
+	)
 }
 
 type RedisConfig struct {
