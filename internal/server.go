@@ -24,7 +24,7 @@ func NewServer() (*Server, error) {
 		return nil, err
 	}
 	// TODO: инициализировать логгер
-	log := loggerPkg.NewLogger()
+	log := loggerPkg.NewLogger(cfg)
 
 	// TODO: инициализировать приложение (app)
 	app := fiber.New(fiber.Config{

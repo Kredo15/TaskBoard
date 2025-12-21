@@ -20,20 +20,20 @@ type DatabaseInterface interface {
 	Ping(ctx context.Context) error
 }
 
-func NewClient(cfg *config.PostgresConfig) (*Client, error) {
+func NewClient(cfg *config.Config) (*Client, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	dsn := cfg.GetDSN()
+	dsn := cfg.Postgres.GetDSN()
 	config, err := pgxpool.ParseConfig(dsn)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse database config: %w", err)
 	}
 
-	config.MaxConns = int32(cfg.MaxConns)
-	config.MinConns = int32(cfg.MinConns)
-	config.MaxConnLifetime = cfg.MaxConnLifetime
-	config.MaxConnIdleTime = cfg.MaxConnIdleTime
-	config.HealthCheckPeriod = cfg.HealthCheckPeriod
+	config.MaxConns = int32(cfg.Postgres.MaxConns)
+	config.MinConns = int32(cfg.Postgres.MinConns)
+	config.MaxConnLifetime = cfg.Postgres.MaxConnLifetime
+	config.MaxConnIdleTime = cfg.Postgres.MaxConnIdleTime
+	config.HealthCheckPeriod = cfg.Postgres.HealthCheckPeriod
 
 	pool, err := pgxpool.NewWithConfig(ctx, config)
 	if err != nil {

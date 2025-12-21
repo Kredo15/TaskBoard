@@ -5,15 +5,32 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+
+	"taskboard/config"
 )
 
 type Logger struct {
+	cfg    *config.Config
 	logger zerolog.Logger
 }
 
-func NewLogger() Logger {
+func NewLogger(cfg *config.Config) Logger {
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
+	switch cfg.Logging.Level {
+	case "debug":
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	case "warn":
+		zerolog.SetGlobalLevel(zerolog.WarnLevel)
+	case "error":
+		zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+	case "fatal":
+		zerolog.SetGlobalLevel(zerolog.FatalLevel)
+	default:
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	}
+
 	return Logger{
+		cfg:    cfg,
 		logger: logger,
 	}
 }
