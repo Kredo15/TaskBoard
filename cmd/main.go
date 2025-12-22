@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	server "taskboard/internal"
+	"taskboard/internal/infrastructure/api/http"
 )
 
 func main() {
-	serv, err := server.NewServer()
+	serv, err := http.NewServer()
 	if err != nil {
 		panic(err)
 	}
