@@ -11,20 +11,21 @@
 │   ├── domain/       # Доменная логика (DDD)
 │   │   ├── task/
 │   │   │   ├── model.go
-│   │   │   ├── repository.go
-│   │   │   └── storage.go
+│   │   │   └── repository.go
 │   │   ├── board/
 │   │   │   ├── model.go
-│   │   │   ├── repository.go
-│   │   │   └── storage.go
+│   │   │   └── repository.go
 │   │   └── column/
 │   │       ├── model.go
-│   │       ├── repository.go
-│   │       └── storage.go
+│   │       └── repository.go
 │   ├── infrastructure/  # Инфраструктурный слой (Postgres, Redis, gRPC)
 │   │   ├── db/
 │   │   │   ├── postgres/
-│   │   │   │   ├── repository.go  # Реализация PostgreSQL-хранилища
+│   │   │   │   ├── repository/  # Реализация CRUD операцй для PostgreSQL
+│   │   │   │   │   ├── task.go  
+│   │   │   │   │   ├── column.go 
+│   │   │   │   │   └── board.go
+│   │   │   │   ├── connect.go
 │   │   │   │   └── migrations.sql # SQL миграции
 │   │   │   └── redis/
 │   │   │       ├── cache.go       # Реализация кеширования Redis
