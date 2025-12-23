@@ -18,7 +18,7 @@ func NewBoardRepository(db *pgxpool.Pool) *BoardRepository {
 	return &BoardRepository{db: db}
 }
 
-func (r *BoardRepository) Create(ctx context.Context, board board.Board) (*board.Board, error) {
+func (r *BoardRepository) Create(ctx context.Context, board *board.Board) error {
 	now := time.Now()
 
 	query := `
@@ -36,11 +36,11 @@ func (r *BoardRepository) Create(ctx context.Context, board board.Board) (*board
 	).Scan(&board.ID)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to create board: %w", err)
+		return fmt.Errorf("failed to create board: %w", err)
 	}
 	board.CreatedAt = now
 	board.UpdatedAt = now
-	return &board, nil
+	return nil
 }
 
 func (r *BoardRepository) FindOne(ctx context.Context, id int) (board.Board, error) {

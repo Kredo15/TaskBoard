@@ -19,17 +19,18 @@
 │   │       ├── model.go
 │   │       └── repository.go
 │   ├── infrastructure/  # Инфраструктурный слой (Postgres, Redis, gRPC)
-│   │   ├── db/
+│   │   ├── persistence/
 │   │   │   ├── postgres/
-│   │   │   │   ├── repository/  # Реализация CRUD операцй для PostgreSQL
-│   │   │   │   │   ├── task.go  
-│   │   │   │   │   ├── column.go 
-│   │   │   │   │   └── board.go
-│   │   │   │   ├── connect.go
-│   │   │   │   └── migrations.sql # SQL миграции
+│   │   │   │   ├── task_repository.go 
+│   │   │   │   ├── column_repository.go 
+│   │   │   │   └── board_repository.go 
 │   │   │   └── redis/
 │   │   │       ├── cache.go       # Реализация кеширования Redis
 │   │   │       └── pubsub.go      # PubSub реализация Redis
+│   │   ├── db/
+│   │   │   ├── postgres/
+│   │   │   │   ├── connect.go
+│   │   │   │   └── migrations.sql # SQL миграции
 │   │   └──api/
 │   │       ├── http/
 │   │       │   ├── handler/
@@ -43,16 +44,15 @@
 │   │           ├── client.go          # Клиентские реализации gRPC
 │   │           └── server.go          # Серверные реализации gRPC
 │   └── application/              # Use Cases / Application Layer
-│       ├── command/              # CQRS Commands
+│       ├── usecase/              # CQRS Commands
 │       │   ├── create_board.go
 │       │   ├── move_task.go
-│       │   └── handler.go
-│       ├── query/                # CQRS Queries
 │       │   ├── get_board.go
 │       │   └── handler.go
-│       └── dto/                  # Правильное место для DTO
-│           ├── request/
-│           └── response/
+│       └── dto/
+│           ├── board.go
+│           ├── column.go
+│           └── task.go
 ├── pkg/              # Пакеты общего назначения (общие библиотеки и утилиты)
 │   ├── logger/
 │   │   └── logger.go

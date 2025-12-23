@@ -43,8 +43,8 @@ func (l Logger) Info(msg string) {
 	log.Info().Msg(msg)
 }
 
-func (l Logger) Warn(msg string) {
-	log.Warn().Msg(msg)
+func (l Logger) Warn(msg string, err error) {
+	log.Warn().Err(err).Msg(msg)
 }
 
 func (l Logger) Error(msg string, err error) {
