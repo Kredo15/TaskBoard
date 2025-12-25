@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"taskboard/internal/infrastructure/api/http"
+	"taskboard/internal/infrastructure/gateways/http"
 )
 
 func main() {
@@ -10,9 +10,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	log := serv.Logger()
 	urlApp := fmt.Sprintf("%s:%d", serv.Config().Server.Host, serv.Config().Server.Port)
 	if err := serv.App().Listen(urlApp); err != nil {
-		serv.Logger().Fatal("", err)
+		log.Fatal("Error with init server", err)
 	}
 	// TODO: запустить gRPC-сервер приложения
 }

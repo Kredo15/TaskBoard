@@ -9,20 +9,24 @@ import (
 	"taskboard/internal/domain/board"
 )
 
-// CreateBoardHandler представляет обработчик команды создания доски
-type CreateBoardHandler struct {
+type CreateBoardUseCase interface {
+	Execute(cmd *dto.CreateBoardRequest) (*dto.CreateBoardResponse, error)
+}
+
+// createBoardHandler представляет обработчик команды создания доски
+type createBoardUseCase struct {
 	boardRepo board.Repository
 }
 
 // NewCreateBoardHandler создает новый экземпляр обработчика команды создания доски
-func NewCreateBoardHandler(repo board.Repository) *CreateBoardHandler {
-	return &CreateBoardHandler{
+func NewCreateBoardUseCase(repo board.Repository) CreateBoardUseCase {
+	return &createBoardUseCase{
 		boardRepo: repo,
 	}
 }
 
-// Handle обрабатывает команду создания доски
-func (h *CreateBoardHandler) Handle(cmd *dto.CreateBoardRequest) (*dto.CreateBoardResponse, error) {
+// Execute обрабатывает команду создания доски
+func (h *createBoardUseCase) Execute(cmd *dto.CreateBoardRequest) (*dto.CreateBoardResponse, error) {
 	// Проверка валидности запроса
 	if len(cmd.Title) == 0 || len(cmd.Description.String) > 255 {
 		return nil, errors.New("некорректные данные для создания доски")

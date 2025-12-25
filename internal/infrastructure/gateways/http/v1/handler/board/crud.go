@@ -12,16 +12,16 @@ import (
 )
 
 type BoardHandler struct {
-	boardService *usecase.BoardService
-	log          *logger.Logger
-	validator    validator.Validator
+	createBoardUseCase usecase.CreateBoardUseCase
+	log                logger.Logger
+	validator          validator.Validator
 }
 
-func NewBoardHandler(boardSvc *usecase.BoardService, log *logger.Logger, validator validator.Validator) *BoardHandler {
+func NewBoardHandler(boardSvc *usecase.CreateBoardUseCase, log *logger.Logger, validator validator.Validator) *BoardHandler {
 	return &BoardHandler{
-		boardService: boardSvc,
-		log:          log,
-		validator:    validator,
+		createBoardUseCase: *boardSvc,
+		log:                *log,
+		validator:          validator,
 	}
 }
 
@@ -29,13 +29,12 @@ func (b *BoardHandler) CreateBoard(c fiber.Ctx) error {
 	req := dto.CreateBoardRequest{}
 
 	if err := c.Bind().Body(&req); err != nil {
-		b.log.Warn("failed to parse request body", err)
+		b.log.Warn("failed to parse request body: %s", err)
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
 			"error": "invalid request format",
 		})
 	}
-
-	board, err := b.boardService.Handle(&req)
+	board, err := b.createBoardUseCase.Execute(&req)
 
 	if err != nil {
 		b.log.Error("create board use case failed", err)
