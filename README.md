@@ -9,6 +9,8 @@ TaskBoard/
 │   ├── app.yaml  # Конфигурационный файл приложения
 │   └── config.go # Загрузка конфигурации
 ├── internal/
+│   ├── app/
+│   │   └── app.go 
 │   ├── application/              # Use Cases / Application Layer
 │   │   ├── dto/
 │   │   │   ├── board.go
@@ -50,7 +52,7 @@ TaskBoard/
 │   │	│       │   │       ├── actions.go
 │   │	│       │   │       └── task_handler.go
 │   │   │       │   ├── middleware.go
-│   │   │       │   └── router
+│   │   │       │   └── router.go
 │   │   │       └── server.go
 │   │   └── persistence/
 │   │       └── postgres/

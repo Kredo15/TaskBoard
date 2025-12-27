@@ -17,14 +17,7 @@ type Server struct {
 	logger loggerPkg.Logger
 }
 
-func NewServer() (*Server, error) {
-	// TODO: инициализировать объект конфига
-	cfg, err := config.NewConfig()
-	if err != nil {
-		return nil, err
-	}
-	// TODO: инициализировать логгер
-	log := loggerPkg.NewLogger(cfg)
+func NewServer(cfg *config.Config, log loggerPkg.Logger) *Server {
 
 	// TODO: инициализировать приложение (app)
 	app := fiber.New(fiber.Config{
@@ -48,7 +41,7 @@ func NewServer() (*Server, error) {
 		cfg:    cfg,
 		logger: log,
 	}
-	return server, nil
+	return server
 }
 
 func (s Server) App() *fiber.App {

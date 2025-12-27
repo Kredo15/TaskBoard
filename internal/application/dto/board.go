@@ -6,7 +6,7 @@ import "github.com/jackc/pgx/v5/pgtype"
 type CreateBoardRequest struct {
 	Title       string      `json:"title"`
 	Description pgtype.Text `json:"description"`
-	OwnerID     int         `json:"owner_id"`
+	OwnerID     string      `json:"owner_id"`
 }
 
 type CreateBoardResponse struct {
